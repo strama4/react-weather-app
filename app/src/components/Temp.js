@@ -1,9 +1,9 @@
 import React from 'react';
 
-const Temp = (props) => (
+const Temp = ({low, high}) => (
     <div>
-        <span>Low: {props.low} </span>
-        <span>High: {props.high}</span>
+        <span>Low: {Math.round(low)} </span>
+        <span>High: {Math.round(high)}</span>
     </div>
 )
 

@@ -30,13 +30,16 @@ class WeatherCard extends Component {
     }
 
     render() {
+        const {day, img, alt, low, high} = this.props;
+
         return (
-            <div style={border[this.state.isHovering]}
-            onMouseEnter={this.handleHover}
-            onMouseLeave={this.handleHover}>
-                <Day day={this.props.day}/> 
-                <WeatherPic img={this.props.img} alt={this.props.alt} />
-                <Temp low={this.props.low} high={this.props.high} />
+            <div className="inner"
+                style={border[this.state.isHovering]}
+                    onMouseEnter={this.handleHover}
+                    onMouseLeave={this.handleHover}>
+                <Day day={day}/> 
+                <WeatherPic img={img} alt={alt} />
+                <Temp low={low} high={high} />
             </div>
 
         )

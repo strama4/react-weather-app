@@ -1,17 +1,17 @@
 import React, { Component } from 'react';
+import { Link, Route } from 'react-router-dom';
 import './App.css';
-import WeatherCard from './components/WeatherCard';
 import Layout from './components/Layout';
-
-
-// sample API call for 5 day/ every 3hours 
-// api.openweathermap.org/data/2.5/forecast?id=524901
+import SevenDayForecast from './components/SevenDayForecast';
+import HourlyForecast from './components/HourlyForecast';
+import DaysSelect from './components/DaysSelect';
 
 class App extends Component {
   state = {
     error: null,
     weatherArr: null,
-    isLoaded: false
+    isLoaded: false,
+    days: 6
   }
 
   componentDidMount() {
@@ -25,7 +25,7 @@ class App extends Component {
     (error) => {
       this.setState({
         isLoaded: true,
-        error: {message: 'Fack off'}
+        error: {message: error}
       })
     })
     
@@ -38,14 +38,15 @@ class App extends Component {
     return data
   }
 
-  getDay = (timestamp) => {
-    let a = new Date(timestamp*1000);
-    let days = ['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'];
-    return days[a.getDay()];
+  handleChange = (e) => {
+    this.setState({
+      days: e.target.value
+    })
   }
+  
 
   render() {
-    const { error, weatherArray, isLoaded} = this.state;
+    const { error, weatherArray, isLoaded, days} = this.state;
     if (error) {
       return <div>Error: {error.message}</div>
     } else if (!isLoaded) {
@@ -53,26 +54,17 @@ class App extends Component {
     } else {
         return (
           <div className="App outer">
+            {console.log(weatherArray)}
             <Layout className="outer">
-            {
-              this.state.weatherArray && weatherArray.map((day) => (
-                <div className="inner">
-                      {console.log(day.icon)}
-                    <WeatherCard className="inner"
-                      day={this.getDay(day.time)}
-                      img={day.icon}
-                      alt={day.icon}
-                      high={day.temperatureHigh}
-                      low={day.temperatureLow}
-                      />
-                  </div>
-              
-              ))
-              }
-      
-              </Layout>
+              <Route exact path="/" render={() => 
+                <div>
+                  <SevenDayForecast days={days} data={weatherArray}/>
+                  <DaysSelect onChange={this.handleChange} days={weatherArray.length} />
+                </div>
+              } />
+              <Route path="/random" component={HourlyForecast} />
+            </Layout>
             </div>
-
         );
     }
   }
