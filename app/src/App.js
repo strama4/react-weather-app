@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Link, Route } from 'react-router-dom';
+import { Route } from 'react-router-dom';
 import './App.css';
 import Layout from './components/Layout';
 import SevenDayForecast from './components/SevenDayForecast';
@@ -9,7 +9,7 @@ import DaysSelect from './components/DaysSelect';
 class App extends Component {
   state = {
     error: null,
-    weatherArr: null,
+    weatherArray: null,
     isLoaded: false,
     days: 6
   }
@@ -46,27 +46,31 @@ class App extends Component {
   
 
   render() {
-    const { error, weatherArray, isLoaded, days} = this.state;
+    const { error, isLoaded, days} = this.state;
     if (error) {
       return <div>Error: {error.message}</div>
-    } else if (!isLoaded) {
+    } 
+    if (!isLoaded) {
       return <div>Loading...</div>
-    } else {
-        return (
-          <div className="App outer">
-            {console.log(weatherArray)}
-            <Layout className="outer">
-              <Route exact path="/" render={() => 
-                <div>
-                  <SevenDayForecast days={days} data={weatherArray}/>
-                  <DaysSelect onChange={this.handleChange} days={weatherArray.length} />
-                </div>
-              } />
-              <Route path="/random" component={HourlyForecast} />
-            </Layout>
-            </div>
-        );
-    }
+    } 
+    const dailyArray = this.state.weatherArray.daily.data;
+    const hourlyArray = this.state.weatherArray.hourly.data
+    {console.log(this.state.weatherArray)}
+    
+    return (
+        <div className="App">
+          <Layout className="outer">
+            <Route exact path="/" render={() => 
+              <div>
+                <SevenDayForecast daysSelected={days} data={dailyArray}/>
+                <DaysSelect onChange={this.handleChange} days={dailyArray.length} />
+              </div>
+            } />
+            <Route path="/:id" render={(props) => <HourlyForecast {...props} hourly={hourlyArray}/>} />
+          </Layout>
+          </div>
+      );
+    
   }
 }
 

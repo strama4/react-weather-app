@@ -23,9 +23,15 @@ class WeatherCard extends Component {
         }
     }
 
-    handleHover = () => {
+    handleHoverOn = () => {
         this.setState({
-            isHovering: !this.state.isHovering
+            isHovering: true
+        })
+    }
+
+    handleHoverOff = () => {
+        this.setState({
+            isHovering: false
         })
     }
 
@@ -35,8 +41,9 @@ class WeatherCard extends Component {
         return (
             <div className="inner"
                 style={border[this.state.isHovering]}
-                    onMouseEnter={this.handleHover}
-                    onMouseLeave={this.handleHover}>
+                    onMouseOver={this.handleHoverOn}
+                    onMouseLeave={this.handleHoverOff}
+                    onClick={this.handleClick}>
                 <Day day={day}/> 
                 <WeatherPic img={img} alt={alt} />
                 <Temp low={low} high={high} />

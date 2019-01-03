@@ -3,15 +3,20 @@ import { Link } from 'react-router-dom'
 import WeatherCard from './WeatherCard';
 
 class SevenDayForecast extends React.Component {
+    getDay(timestamp) {
+        const date = new Date(timestamp * 1000);
+        return date.getDay();
+    }
+
     render() {
-        const {data, days} = this.props;
+        const {data, daysSelected} = this.props;
 
         return (
-            <div>
+            <div className="flex-container">
                 {
                     data && data.map((day, index) => {
-                        return index < days ?
-                            <Link to="/random">
+                        return index < daysSelected ?
+                            <Link key={index} to={`/${this.getDay(day.time)}`}>
                                 <WeatherCard
                                     key={index}
                                     day={day.time}

@@ -25,6 +25,11 @@
 .inner {
   display: inline-block !important;
 }
+
+a, a:hover, a:visited {
+  color: black;
+}
+
 @keyframes App-logo-spin {
   from {
     transform: rotate(0deg);
@@ -32,4 +37,13 @@
   to {
     transform: rotate(360deg);
   }
+}
+
+.button {
+  border: 1px black solid;
+  background-color: black;
+  color: white !important;
+  text-decoration: none;
+  border-radius: 20%;
+  padding: 0.5rem;
 }
